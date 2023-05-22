@@ -122,4 +122,3 @@ function editRowToTable(r) {
     document.getElementById("link-table").rows[editRow].cells[5].innerHTML = description  
     document.getElementById("link-table").rows[editRow].cells[7].innerHTML = new Date()  
 }
-    
