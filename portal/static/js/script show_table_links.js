@@ -59,7 +59,8 @@ function reload_table_links() {
                 link[key] = value;
             })
             console.log(`link=${link}`)
-            add_new_row(i + 1, link['id'], 
+            add_new_row(i + 1, 
+                        link.id, 
                         link.name, 
                         link.environment, 
                         link.link, 
@@ -68,10 +69,13 @@ function reload_table_links() {
                         link.created_by,
                         link.created_at,
                         link.updated_by,
-                        link.updated_at, 
-                        )
+                        link.updated_at)
+            //--- Store link detail for other purpose
+            sessionStorage.setItem(link.id, JSON.stringify(link));
             // table_portals_update_row(portal.id)
         }
+        // Just for demo, would be delete later
+        example_get_link_detail_from_session_storage(1)
     }
     //--- Example of request single link
     // xmlhttp.open("GET", `/api/v1.0/link/2`) 

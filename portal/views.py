@@ -78,7 +78,7 @@ class api:
                 start = int(request.GET.get("start")) if request.GET.get("start") else 0
                 count = int(request.GET.get("count")) if request.GET.get("count") else 1
                 links = list(Link.objects.all()[start:start + count].values())
-            print(f'portals={links}')
+            # print(f'portals={links}')
             return JsonResponse({'total':total_count,
                                 'count':len(links),
                                 'links':links})
