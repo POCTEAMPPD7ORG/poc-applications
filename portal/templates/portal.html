@@ -6,7 +6,7 @@ Portal Link Management
 
 {% block content %}
 <div class="row">
-    <div class="col-sm-8 search-bar">
+    <div class="col-sm-6 search-bar">
         <div class="input-group">
             <span class="input-group-text">Search</span>
             <input type="text" aria-label="Search" class="form-control txt-search">
@@ -15,6 +15,13 @@ Portal Link Management
     </div>
     <div class="col-sm-2">
         <button type="button" class="btn btn-primary"><i class="fas fa-add"></i></button>
+    </div>
+    <div class="col-sm-2"></div>
+    <div class="col-sm-2">
+        <div class="input-group">
+            <span class="input-group-text">Username</span>
+            <button type="button" class="btn btn-danger" onclick="logout_portal()">Logout</button>
+        </div>
     </div>
 </div>
 <hr>
@@ -26,47 +33,42 @@ Portal Link Management
             <th scope="col">Name</th>
             <th scope="col">Env</th>
             <th scope="col">Link</th>
-            <th scope="col">Type</th>
+            <th scope="col">Project</th>
             <th scope="col">Description</th>
             <th scope="col">Created By</th>
             <th scope="col">Created Date</th>
+            <th scope="col">Updated By</th>
+            <th scope="col">Updated Date</th>
             <th scope="col">Actions</th>
         </tr>
         </thead>
-        <tbody>
-        <tr></tr>
-        <tr>
-            <th scope="row">1</th>
-            <td>BaP</td>
-            <td>Q</td>
-            <td>
-                <a href="https://nxd-ias.ba-qa03.rb-dcs.bosch.com/iam/auth/realms/cbeaa370-c11d-11e1-8ba8-d4bed92ae488/protocol/openid-connect/auth?client_id=1sn3rorxhf8e1q2ec790k2cec-frontend&redirect_uri=https%3A%2F%2Fnxd-ias.ba-qa03.rb-dcs.bosch.com%2F%3Ftenant%3Dcbeaa370-c11d-11e1-8ba8-d4bed92ae488&state=6684f525-a926-4bd0-9edf-f5530c968f17&response_mode=fragment&response_type=code&scope=openid&nonce=0f93d4b9-e75c-48c8-92ff-e7f4af360388&code_challenge=frH_wO9522Xnw8heo5AmXBeqOB5ihE5kulft71HNN7Q&code_challenge_method=S256">https://nxd-ias.ba-qa03.rb-dcs.bosch.com</a>
-            </td>
-            <td>Deviation Management</td>
-            <td>Note</td>
-            <td>Triet Nguyen Kim</td>
-            <td>13/05/2023 10:18AM</td>
-            <td> {% include 'actions.html' %}</td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>BaP2</td>
-            <td>Q</td>
-            <td>
-                <a href="https://nxd-ias.ba-qa03.rb-dcs.bosch.com/iam/auth/realms/cbeaa370-c11d-11e1-8ba8-d4bed92ae488/protocol/openid-connect/auth?client_id=1sn3rorxhf8e1q2ec790k2cec-frontend&redirect_uri=https%3A%2F%2Fnxd-ias.ba-qa03.rb-dcs.bosch.com%2F%3Ftenant%3Dcbeaa370-c11d-11e1-8ba8-d4bed92ae488&state=6684f525-a926-4bd0-9edf-f5530c968f17&response_mode=fragment&response_type=code&scope=openid&nonce=0f93d4b9-e75c-48c8-92ff-e7f4af360388&code_challenge=frH_wO9522Xnw8heo5AmXBeqOB5ihE5kulft71HNN7Q&code_challenge_method=S256">https://nxd-ias.ba-qa03.rb-dcs.bosch.com/iam/auth/realms</a>
-            </td>
-            <td>Deviation Management</td>
-            <td>Note</td>
-            <td>Hai Le Huynh Long</td>
-            <td>14/05/2023 10:18AM</td>
-            <td> {% include 'actions.html' %}</td>
-        </tr>
+        <tbody id="table_body_links">
+            <!-- Link rows added here -->
         </tbody>
     </table>
 </div>
 
-
+<template id="template_row_link">
+    <tr>
+        <th scope="row">1</th>
+        <td>name</td>
+        <td>env</td>
+        <td>
+            <a href="link">link</a>
+        </td>
+        <td>project</td>
+        <td>description</td>
+        <td>username</td>
+        <td>14/05/2023 10:18AM</td>
+        <td>username</td>
+        <td>14/05/2023 10:18AM</td>
+        <td link-id='X'> {% include 'actions.html' %}</td>
+    </tr>
+</template>
 {% load static %}
+<script src="{% static 'js/script_get_cookies.js' %}"></script>
 <script src="{% static 'js/scripts.js' %}"></script>
+<script src="{% static 'js/script show_table_links.js' %}"></script>
+<script src="{% static 'js/script_logout.js' %}"></script>
 {% endblock %}
 

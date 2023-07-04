@@ -1,0 +1,49 @@
+{% extends "template.html" %}
+{% block title %}
+Login
+{% endblock %}
+
+
+{% block content %}
+<div class="spinner-border" role="status" id="login-spinner" hidden>
+    <span class="visually-hidden">Loading...</span>
+</div>
+<div id="login-section">
+    {% csrf_token %}
+    <div>
+        <h4 id="dialog-title">Login to portals</h4>
+    </div>
+
+    <div >
+        <div class="input-group">
+            <span class="input-group-text">Username</span>
+            <input type="text" class="form-control" placeholder="Username/Email" id="input-login-username">
+        </div>
+        <p></p>
+        <div class="input-group">
+            <span class="input-group-text">Password</span>
+            <input type="password" class="form-control" placeholder="Password" id="input-login-password">
+        </div>
+        <p></p>
+    </div>
+
+    <!-- Modal footer -->
+    <div>
+        <button class="btn btn-success" type="submit" id="button-action" 
+            onclick="login_portal(document.getElementById('input-login-username').value,document.getElementById('input-login-password').value)">
+            Login
+        </button>
+    </div>
+    <div>
+        <h4 style="color: red;" id="login-failed-notify" hidden>Cannot login account!</h4>
+    </div>
+    <p></p>
+    <div>
+        <p>Not having account?</p>
+        <a href="/signup">signup</a>
+    </div>
+</div>
+{% load static %}
+<script src="{% static 'js/script_get_cookies.js' %}"></script>
+<script src="{% static 'js/script_login.js' %}"></script>
+{% endblock %}

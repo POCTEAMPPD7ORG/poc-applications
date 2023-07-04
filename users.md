@@ -1,5 +1,6 @@
 Username | password
 ---------|---------
+vinh | adminpoc2023
 duy | adminpoc2023
 hai | adminpoc2023
 lam | adminpoc2023

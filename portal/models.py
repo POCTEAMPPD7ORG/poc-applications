@@ -6,7 +6,7 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 class Link(models.Model):
     name = models.CharField(max_length=255)
     environment = models.CharField(max_length=255)
-    link = models.CharField(unique=True, blank=False, max_length=255)
+    link = models.CharField(unique=True, max_length=255)
     project = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
     created_by = models.CharField(max_length=255)
@@ -15,7 +15,7 @@ class Link(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
-        return super().__str__()
+        return f"{self.name} || {self.environment} || {self.link} || {self.project} || {self.description}"
 
 
 class UserManager(BaseUserManager):
