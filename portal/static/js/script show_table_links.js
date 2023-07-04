@@ -44,8 +44,8 @@ function reload_table_links() {
             // the HTML template element is not supported.
         }
     }
-    // add_new_row()
     const xmlhttp = new XMLHttpRequest()
+    //--- Set callback function to handle on-load (received) data
     xmlhttp.onload = function() {
         // console.log(`response=${this.responseText}`)
         const response = JSON.parse(this.responseText)
@@ -73,8 +73,10 @@ function reload_table_links() {
             // table_portals_update_row(portal.id)
         }
     }
-    // xmlhttp.open("GET", `/api/v1.0/link/2`) // Example of request single link
+    //--- Example of request single link
+    // xmlhttp.open("GET", `/api/v1.0/link/2`) 
     xmlhttp.open("GET", `/api/v1.0/link?start=0&count=100`)
+    //--- Get CSRF token, and embedded it to request. Django Back-end CSRF verification is enabled.
     xmlhttp.setRequestHeader("X-CSRFToken", getCookie('csrftoken'))
     xmlhttp.setRequestHeader('mode', 'same-origin')
     xmlhttp.send()
