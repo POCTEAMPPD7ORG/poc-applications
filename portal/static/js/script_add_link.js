@@ -1,4 +1,4 @@
-function clear_value() {
+function clear_value_dialog_add() {
     document.getElementById("name").value = ""
     document.getElementById("environment").value = ""
     document.getElementById("link").value = ""
@@ -13,7 +13,6 @@ function add_link() {
     link.link = document.getElementById("link").value
     link.project = document.getElementById("project").value
     link.description = document.getElementById("description").value
-    link.created_at = convert_date_to_local_string(new Date().toString())
 
     const xmlhttp = new XMLHttpRequest()
     xmlhttp.open("POST", `api/v1.0/link`)

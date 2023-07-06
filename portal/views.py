@@ -91,9 +91,7 @@ class api:
                           project=jsonLink['project'],
                           description=jsonLink['description'],
                           created_by=request.user.username,
-                          created_at=jsonLink['created_at'],
-                          updated_by=None,
-                          updated_at=None
+                          updated_by=request.user.username
                           )
             link.save()
             return JsonResponse({'result': 'OK'})
