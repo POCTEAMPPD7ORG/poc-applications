@@ -1,0 +1,42 @@
+<div class="modal" id="addlink" data-bs-backdrop="static" data-bs-keyboard="false" >
+    <div class="modal-dialog">
+
+
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Add Portal</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                    <br>
+                    {% csrf_token %}
+                    Name:<br>
+                    <input name="name" id="name" required>
+                    <br><br>
+                    Environment:<br>
+                    <input name="environment" id="environment" required>
+                    <br><br>
+                    Link:<br>
+                    <input name="link" id="link" required>
+                    <br><br>
+                    Project:<br>
+                    <input name="project" id="project" required>
+                    <br><br>
+                    Description:<br>
+                    <input name="note" id="description">
+                    <br><br>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button class="btn btn-success" type="submit" data-bs-dismiss="modal" id="submitAddLink" onclick="add_link();window.location.reload();">
+                    Add
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
