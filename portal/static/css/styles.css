@@ -71,7 +71,18 @@ hr {
   border: 5px dashed lightblue!important;
   border-radius: 2px;
 }
-
+.created_by_column {
+    width: 120px;
+}
+.updated_by_column {
+    width: 120px;
+}
+.updated_date_column {
+    width: 180px;
+}
+.action_column {
+    width: 160px;
+}
 /* End Content */
 
 
