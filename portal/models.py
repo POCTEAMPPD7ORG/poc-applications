@@ -11,8 +11,8 @@ class Link(models.Model):
     description = models.CharField(max_length=255)
     created_by = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_by = models.CharField(null = True, max_length=255)
-    updated_at = models.DateTimeField(null = True, auto_now=True)
+    updated_by = models.CharField(max_length=255)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
         return f"{self.name} || {self.environment} || {self.link} || {self.project} || {self.description}"
