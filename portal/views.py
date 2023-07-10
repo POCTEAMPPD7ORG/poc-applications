@@ -85,7 +85,22 @@ class api:
             else:
                 start = int(request.GET.get("start")) if request.GET.get("start") else 0
                 count = int(request.GET.get("count")) if request.GET.get("count") else 1
+
+                #links = list(Link.objects.all()[start:start + count].values())
+            # Handle filter for search input
+            if request.GET.get("search"):
+                # apply search
+                query = request.GET.get("search")
+                links = list(Link.objects.filter(Q(name__icontains=query)
+                     | Q(environment__icontains=query)
+                     | Q(link__icontains=query)
+                     | Q(project__icontains=query)
+                     | Q(description__icontains=query)
+                     | Q(created_by__icontains=query))[start:start + count].values())
+            else:
                 links = list(Link.objects.all()[start:start + count].values())
+
+
             # print(f'portals={links}')
             return JsonResponse({'total': total_count,
                                  'count': len(links),
@@ -107,19 +122,3 @@ class api:
             # Implement PUT method handling here #
             pass
         return HttpResponseBadRequest()
-
-    @require_GET
-    def search_link(request):
-        query = request.GET.get('txt')
-        if not query:
-            return JsonResponse({'error': 'Please input search text.'}, status=400)
-        if len(query) > 250:
-            return JsonResponse({'error': 'Search text should be less than 250 characters.'}, status=400)
-        links = Link.objects.filter(Q(name__icontains=query) | Q(environment__icontains=query) |
-                                    Q(link__icontains=query) | Q(project__icontains=query) |
-                                    Q(description__icontains=query) | Q(created_by__icontains=query))
-        response_data = {
-            'query': query,
-            'results': json.loads(serializers.serialize('json', links))
-        }
-        return JsonResponse(response_data)
