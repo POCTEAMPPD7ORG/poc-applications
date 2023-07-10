@@ -10,11 +10,11 @@ Portal Link Management
         <div class="input-group">
             <span class="input-group-text">Search</span>
             <input type="text" aria-label="Search" class="form-control txt-search">
-            <button title="Add link" type="button" class="btn btn-primary"><i class="fas fa-search"></i></button>
+            <button title="Search link" type="button" class="btn btn-primary"><i class="fas fa-search"></i></button>
         </div>
     </div>
     <div class="col-sm-2">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addlink"  onclick="clear_value();"><i class="fas fa-add"></i></button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addlink"  onclick="clear_value_dialog_add();"><i class="fas fa-add"></i></button>
     </div>
     <div class="col-sm-2"></div>
     <div class="col-sm-2">
@@ -67,10 +67,11 @@ Portal Link Management
 </template>
 {% include 'add.html' %}
 {% load static %}
-<script src="{% static 'js/script_get_cookies.js' %}"></script>
+<!--<script src="{% static 'js/script_get_cookies.js' %}"></script>-->
 <script src="{% static 'js/scripts.js' %}"></script>
 <script src="{% static 'js/script show_table_links.js' %}"></script>
 <script src="{% static 'js/script_logout.js' %}"></script>
 <script src="{% static 'js/script_add_link.js' %}"></script>
+<script src="{% static 'js/script_search_link.js' %}"></script>
 {% endblock %}
 

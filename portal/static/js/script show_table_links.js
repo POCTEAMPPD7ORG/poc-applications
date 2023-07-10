@@ -81,7 +81,7 @@ function reload_table_links() {
     // xmlhttp.open("GET", `/api/v1.0/link/2`) 
     xmlhttp.open("GET", `/api/v1.0/link?start=0&count=100`)
     //--- Get CSRF token, and embedded it to request. Django Back-end CSRF verification is enabled.
-    xmlhttp.setRequestHeader("X-CSRFToken", getCookie('csrftoken'))
-    xmlhttp.setRequestHeader('mode', 'same-origin')
+//    xmlhttp.setRequestHeader("X-CSRFToken", getCookie('csrftoken'))
+//    xmlhttp.setRequestHeader('mode', 'same-origin')
     xmlhttp.send()
 }

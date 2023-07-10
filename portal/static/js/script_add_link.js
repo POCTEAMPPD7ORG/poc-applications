@@ -16,7 +16,7 @@ function add_link() {
 
     const xmlhttp = new XMLHttpRequest()
     xmlhttp.open("POST", `api/v1.0/link`)
-    xmlhttp.setRequestHeader("X-CSRFToken", getCookie('csrftoken'))
-    xmlhttp.setRequestHeader('mode', 'same-origin')
+//    xmlhttp.setRequestHeader("X-CSRFToken", getCookie('csrftoken'))
+//    xmlhttp.setRequestHeader('mode', 'same-origin')
     xmlhttp.send(JSON.stringify(link))
 }

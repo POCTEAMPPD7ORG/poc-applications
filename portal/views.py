@@ -1,5 +1,11 @@
 import json
+
+from django.core import serializers
 from django.http import JsonResponse, HttpResponse, HttpRequest, HttpResponseBadRequest
+from django.views.decorators.http import require_GET
+from django.db.models import Q
+
+
 from .models import Link
 from django.template import loader
 from django.contrib.auth.decorators import login_required
@@ -9,17 +15,20 @@ from django.contrib.auth import login as django_login
 from django.contrib.auth import logout as django_logout
 from django.contrib.auth.models import User
 
-def login(request:HttpRequest):
-    """ Get login page
-    
-    :param request (HttpRequest): _description_
-    :returns rendered login page
-    """
-    template = loader.get_template('login.html')
-    return HttpResponse(template.render())
-    
-@login_required(login_url="login")
-def portal(request:HttpRequest):
+
+# @csrf_exempt
+# def login(request:HttpRequest):
+#     """ Get login page
+#
+#     :param request (HttpRequest): _description_
+#     :returns rendered login page
+#     """
+#     template = loader.get_template('login.html')
+#     return HttpResponse(template.render())
+
+
+# @login_required(login_url="login")
+def portal(request: HttpRequest):
     """ Get portal page
     
     :param request (HttpRequest): _description_
@@ -30,39 +39,38 @@ def portal(request:HttpRequest):
 
 
 class api:
-    
-    def login(request:HttpRequest):
-        """ API login
-    
-        :param request (HttpRequest): _description_
-        :returns Json response {'result':'OK'} if OK. Http Bad request if failed
-        """
-        if request.method != 'POST':
-            return HttpResponseBadRequest()
-        login_info = json.loads(request.body)
-        print(f'type={type(login_info)}\nInfo={login_info}')
-        user = authenticate(request, username=login_info['username'], password=login_info['password'])
-        if user is not None:
-            django_login(request, user)
-            return JsonResponse({'result':'OK'})
-        else:
-            return HttpResponseBadRequest()
-        
 
-    @login_required(login_url="login")
-    def logout(request):
-        """ API logout
-    
-        :param request (HttpRequest): _description_
-        :returns Json response {'result':'OK'} if OK. Http Bad request if failed
-        """
-        if request.method != 'POST':
-            return HttpResponseBadRequest()
-        django_logout(request)
-        return JsonResponse({'result':'OK'})
+    # def login(request:HttpRequest):
+    #     """ API login
+    #
+    #     :param request (HttpRequest): _description_
+    #     :returns Json response {'result':'OK'} if OK. Http Bad request if failed
+    #     """
+    #     if request.method != 'POST':
+    #         return HttpResponseBadRequest()
+    #     login_info = json.loads(request.body)
+    #     print(f'type={type(login_info)}\nInfo={login_info}')
+    #     user = authenticate(request, username=login_info['username'], password=login_info['password'])
+    #     if user is not None:
+    #         django_login(request, user)
+    #         return JsonResponse({'result':'OK'})
+    #     else:
+    #         return HttpResponseBadRequest()
 
-    @login_required(login_url="login")
-    def link(request:HttpRequest, link_id=None):
+    # @login_required(login_url="login")
+    # def logout(request):
+    #     """ API logout
+    #
+    #     :param request (HttpRequest): _description_
+    #     :returns Json response {'result':'OK'} if OK. Http Bad request if failed
+    #     """
+    #     if request.method != 'POST':
+    #         return HttpResponseBadRequest()
+    #     django_logout(request)
+    #     return JsonResponse({'result':'OK'})
+
+    # @login_required(login_url="login")
+    def link(request: HttpRequest, link_id=None):
         """ API link
 
         :param request (HttpRequest): _description_
@@ -79,23 +87,39 @@ class api:
                 count = int(request.GET.get("count")) if request.GET.get("count") else 1
                 links = list(Link.objects.all()[start:start + count].values())
             # print(f'portals={links}')
-            return JsonResponse({'total':total_count,
-                                'count':len(links),
-                                'links':links})
+            return JsonResponse({'total': total_count,
+                                 'count': len(links),
+                                 'links': links})
         elif request.method == 'POST':
             jsonLink = json.loads(request.body)
             print(f'Portal Json:{jsonLink}')
             link = Link(name=jsonLink['name'],
-                          environment=jsonLink['environment'],
-                          link=jsonLink['link'],
-                          project=jsonLink['project'],
-                          description=jsonLink['description'],
-                          created_by=request.user.username,
-                          updated_by=request.user.username
-                          )
+                        environment=jsonLink['environment'],
+                        link=jsonLink['link'],
+                        project=jsonLink['project'],
+                        description=jsonLink['description'],
+                        created_by=request.user.username,
+                        updated_by=request.user.username
+                        )
             link.save()
             return JsonResponse({'result': 'OK'})
         elif request.method == 'PUT':
             # Implement PUT method handling here #
             pass
         return HttpResponseBadRequest()
+
+    @require_GET
+    def search_link(request):
+        query = request.GET.get('txt')
+        if not query:
+            return JsonResponse({'error': 'Please input search text.'}, status=400)
+        if len(query) > 250:
+            return JsonResponse({'error': 'Search text should be less than 250 characters.'}, status=400)
+        links = Link.objects.filter(Q(name__icontains=query) | Q(environment__icontains=query) |
+                                    Q(link__icontains=query) | Q(project__icontains=query) |
+                                    Q(description__icontains=query) | Q(created_by__icontains=query))
+        response_data = {
+            'query': query,
+            'results': json.loads(serializers.serialize('json', links))
+        }
+        return JsonResponse(response_data)
