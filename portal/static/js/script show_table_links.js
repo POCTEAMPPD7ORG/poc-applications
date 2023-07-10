@@ -79,13 +79,12 @@ function reload_table_links() {
     }
     //--- Example of request single link
     // xmlhttp.open("GET", `/api/v1.0/link/2`) 
-    // xmlhttp.open("GET", `/api/v1.0/link?start=0&count=100`)
     var url = `/api/v1.0/link?start=0&count=100`;
     url += '&search=' + $("input[aria-label=Search]").val().trim();
     xmlhttp.open("GET", url);
 
     //--- Get CSRF token, and embedded it to request. Django Back-end CSRF verification is enabled.
-//    xmlhttp.setRequestHeader("X-CSRFToken", getCookie('csrftoken'))
-//    xmlhttp.setRequestHeader('mode', 'same-origin')
+    xmlhttp.setRequestHeader("X-CSRFToken", getCookie('csrftoken'))
+    xmlhttp.setRequestHeader('mode', 'same-origin')
     xmlhttp.send()
 }

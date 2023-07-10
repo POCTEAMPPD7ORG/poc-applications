@@ -11,7 +11,7 @@ function logout_portal() {
         }
     }
     xmlhttp.open("POST", `/api/v1.0/logout`)
-//    xmlhttp.setRequestHeader("X-CSRFToken", getCookie('csrftoken'))
-//    xmlhttp.setRequestHeader('mode', 'same-origin')
+    xmlhttp.setRequestHeader("X-CSRFToken", getCookie('csrftoken'))
+    xmlhttp.setRequestHeader('mode', 'same-origin')
     xmlhttp.send()
 }

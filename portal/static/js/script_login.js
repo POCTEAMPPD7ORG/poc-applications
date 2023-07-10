@@ -17,8 +17,8 @@ function login_portal(username, password) {
         }
     }
     xmlhttp.open("POST", `/api/v1.0/login`)
-//    xmlhttp.setRequestHeader("X-CSRFToken", getCookie('csrftoken'))
-//    xmlhttp.setRequestHeader('mode', 'same-origin')
+    xmlhttp.setRequestHeader("X-CSRFToken", getCookie('csrftoken'))
+    xmlhttp.setRequestHeader('mode', 'same-origin')
     xmlhttp.send(JSON.stringify({'username':username,'password':password}))
 }
 

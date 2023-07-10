@@ -9,10 +9,7 @@ function search_link() {
             alert("Search text should be less than 250 characters.");
             return;
         }
-
         reload_table_links();
-
     });
-
 }
 
