@@ -1,0 +1,52 @@
+{% block content %}
+<!-- Modal -->
+  <div class="modal fade" id="modal-edit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h1 class="modal-title fs-5" id="modal-title-edit">Edit Link</h1>
+		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		</div>
+		<div class="modal-body">
+			<form id="form-edit">
+				<div class="form-group">
+				  <label for="edit-name">Name</label>
+				  <input class="form-control" id="edit-name" placeholder="Link Name">
+				</div>
+				<div class="form-group">
+				  <label for="edit-env">Env</label>
+				  <input class="form-control" id="edit-env" placeholder="Env Name">
+				</div>
+				<div class="form-group">
+					<label for="edit-link">Link</label>
+					<input class="form-control" id="edit-link" placeholder="Link" disabled="">
+				  </div>
+				<div class="form-group">
+					<label for="edit-link-type">Type</label>
+					<input class="form-control" id="edit-link-type" placeholder="Link Type">
+				</div>
+				<div class="form-group">
+					<label for="edit-description">Description</label>
+					<input class="form-control" id="edit-description" placeholder="Description">
+				</div>
+				<div class="form-group">
+					<label for="edit-createdBy">Created By</label>
+					<input class="form-control" id="edit-createdBy" placeholder="Created By" disabled="">
+				</div>
+<!--				<div class="form-group">-->
+<!--					<label for="updatedby">Updated By</label>-->
+<!--					<input class="form-control" id="updatedBy" placeholder="Updated By">-->
+<!--				</div>-->
+			  </form>
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+		  <button id="save-change" type="submit" class="btn btn-primary" onclick="request_edit_link()">Update</button>
+		</div>
+	  </div>
+	</div>
+  </div>
+
+{% load static %}
+<script src="{% static 'js/edit_scripts.js' %}"></script>
+{% endblock %}
