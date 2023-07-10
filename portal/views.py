@@ -15,20 +15,17 @@ from django.contrib.auth import login as django_login
 from django.contrib.auth import logout as django_logout
 from django.contrib.auth.models import User
 
-
-# @csrf_exempt
-# def login(request:HttpRequest):
-#     """ Get login page
-#
-#     :param request (HttpRequest): _description_
-#     :returns rendered login page
-#     """
-#     template = loader.get_template('login.html')
-#     return HttpResponse(template.render())
-
-
-# @login_required(login_url="login")
-def portal(request: HttpRequest):
+def login(request:HttpRequest):
+    """ Get login page
+    
+    :param request (HttpRequest): _description_
+    :returns rendered login page
+    """
+    template = loader.get_template('login.html')
+    return HttpResponse(template.render())
+    
+@login_required(login_url="login")
+def portal(request:HttpRequest):
     """ Get portal page
     
     :param request (HttpRequest): _description_
@@ -39,38 +36,39 @@ def portal(request: HttpRequest):
 
 
 class api:
+    @csrf_exempt
+    def login(request:HttpRequest):
+        """ API login
+    
+        :param request (HttpRequest): _description_
+        :returns Json response {'result':'OK'} if OK. Http Bad request if failed
+        """
+        if request.method != 'POST':
+            return HttpResponseBadRequest()
+        login_info = json.loads(request.body)
+        print(f'type={type(login_info)}\nInfo={login_info}')
+        user = authenticate(request, username=login_info['username'], password=login_info['password'])
+        if user is not None:
+            django_login(request, user)
+            return JsonResponse({'result':'OK'})
+        else:
+            return HttpResponseBadRequest()
+        
 
-    # def login(request:HttpRequest):
-    #     """ API login
-    #
-    #     :param request (HttpRequest): _description_
-    #     :returns Json response {'result':'OK'} if OK. Http Bad request if failed
-    #     """
-    #     if request.method != 'POST':
-    #         return HttpResponseBadRequest()
-    #     login_info = json.loads(request.body)
-    #     print(f'type={type(login_info)}\nInfo={login_info}')
-    #     user = authenticate(request, username=login_info['username'], password=login_info['password'])
-    #     if user is not None:
-    #         django_login(request, user)
-    #         return JsonResponse({'result':'OK'})
-    #     else:
-    #         return HttpResponseBadRequest()
+    @login_required(login_url="login")
+    def logout(request):
+        """ API logout
+    
+        :param request (HttpRequest): _description_
+        :returns Json response {'result':'OK'} if OK. Http Bad request if failed
+        """
+        if request.method != 'POST':
+            return HttpResponseBadRequest()
+        django_logout(request)
+        return JsonResponse({'result':'OK'})
 
-    # @login_required(login_url="login")
-    # def logout(request):
-    #     """ API logout
-    #
-    #     :param request (HttpRequest): _description_
-    #     :returns Json response {'result':'OK'} if OK. Http Bad request if failed
-    #     """
-    #     if request.method != 'POST':
-    #         return HttpResponseBadRequest()
-    #     django_logout(request)
-    #     return JsonResponse({'result':'OK'})
-
-    # @login_required(login_url="login")
-    def link(request: HttpRequest, link_id=None):
+    @login_required(login_url="login")
+    def link(request:HttpRequest, link_id=None):
         """ API link
 
         :param request (HttpRequest): _description_
