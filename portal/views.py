@@ -69,6 +69,7 @@ class api:
         :param request (HttpRequest): _description_
         :param link_id : get only specific link by id
         :returns Json response if OK. Http Bad request if failed
+        Can search by name, environment, link, project, description, created_by
         """
         start = None
         count = None
