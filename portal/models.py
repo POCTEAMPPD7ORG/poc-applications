@@ -4,6 +4,7 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 
 
 class Link(models.Model):
+    objects = None
     name = models.CharField(max_length=255)
     environment = models.CharField(max_length=255)
     link = models.CharField(unique=True, max_length=255)

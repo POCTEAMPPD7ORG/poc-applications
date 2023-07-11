@@ -1,5 +1,6 @@
 import json
 
+
 from django.http import JsonResponse, HttpResponse, HttpRequest, HttpResponseBadRequest
 from django.db.models import Q
 
@@ -9,6 +10,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as django_login
 from django.contrib.auth import logout as django_logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.http import JsonResponse, HttpResponse, HttpRequest, HttpResponseBadRequest
+from django.template import loader
+from django.views.decorators.csrf import csrf_exempt
+
+from .models import Link
 
 
 def login(request: HttpRequest):
@@ -95,18 +103,8 @@ class api:
                                  'count': len(links),
                                  'links': links})
         elif request.method == 'POST':
-            jsonLink = json.loads(request.body)
-            print(f'Portal Json:{jsonLink}')
-            link = Link(name=jsonLink['name'],
-                        environment=jsonLink['environment'],
-                        link=jsonLink['link'],
-                        project=jsonLink['project'],
-                        description=jsonLink['description'],
-                        created_by=request.user.username,
-                        updated_by=request.user.username
-                        )
-            link.save()
-            return JsonResponse({'result': 'OK'})
+            # Implement POST method handling here #
+            pass
         elif request.method == 'PUT':
             # Implement PUT method handling here #
             pass
