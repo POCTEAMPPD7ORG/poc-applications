@@ -43,7 +43,7 @@ function reload_table_links() {
                 page_count += 1
             }
             console.log(`total_links=${total_links} & link_per_page=${link_per_page} -> page_count=${page_count}`)
-        }       
+        }
         const ul = document.querySelector("#list_table_links_pagination");
         // Clear pagination
         ul.innerHTML = "";
@@ -133,7 +133,7 @@ function reload_table_links() {
                 link[key] = value;
             })
             console.log(`link=${link}`)
-            add_new_row(i + 1 + current_page * link_per_page, 
+            add_new_row(i + 1 + current_page * link_per_page,
                         link.id, 
                         link.name, 
                         link.environment, 
@@ -155,7 +155,10 @@ function reload_table_links() {
     // xmlhttp.open("GET", `/api/v1.0/link/2`) 
     start = current_page * link_per_page
     count = link_per_page
-    xmlhttp.open("GET", `/api/v1.0/link?start=${start}&count=${count}`)
+    var url = `/api/v1.0/link?start=${start}&count=${count}`;
+    url += '&search=' + $("input[aria-label=Search]").val().trim();
+    xmlhttp.open("GET", url);
+
     //--- Get CSRF token, and embedded it to request. Django Back-end CSRF verification is enabled.
     xmlhttp.setRequestHeader("X-CSRFToken", getCookie('csrftoken'))
     xmlhttp.setRequestHeader('mode', 'same-origin')
