@@ -79,7 +79,6 @@ class api:
                 start = int(request.GET.get("start")) if request.GET.get("start") else 0
                 count = int(request.GET.get("count")) if request.GET.get("count") else 1
                 links = list(Link.objects.all()[start:start + count].values())
-            # print(f'portals={links}')
             return JsonResponse({'total': total_count,
                                  'count': len(links),
                                  'links': links})
@@ -100,20 +99,8 @@ class api:
             # Implement PUT method handling here #
             jsonLink = json.loads(request.body)
             print(f'Portal Json:{jsonLink}')
-            link_put = Link.objects.get(link=jsonLink['link'])
-            link_put.name = jsonLink['name'],
-            link_put.environment = jsonLink['environment'],
-            link_put.project = jsonLink['project'],
-            link_put.description = jsonLink['description'],
-            link_put.updated_by = request.user.username
-            # link_put = Link(name=jsonLink['name'],
-            #                 environment=jsonLink['environment'],
-            #                 link=jsonLink['link'],
-            #                 project=jsonLink['project'],
-            #                 description=jsonLink['description'],
-            #                 updated_by=request.user.username
-            #                 )
-            link_put.save()
+            link_put = Link.objects.filter(id=jsonLink['id'])
+            print(f'Portal Json:{link_put}')
+            jsonLink['updated_by'] = request.user.username
             return JsonResponse({'result': 'OK'})
-            pass
         return HttpResponseBadRequest()
