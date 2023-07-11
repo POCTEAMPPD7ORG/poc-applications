@@ -11,6 +11,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as django_login
 from django.contrib.auth import logout as django_logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user as django_get_user
 from django.contrib.auth.models import User
 from django.http import JsonResponse, HttpResponse, HttpRequest, HttpResponseBadRequest
 from django.template import loader
@@ -120,3 +121,14 @@ class api:
             # Implement PUT method handling here #
             pass
         return HttpResponseBadRequest()
+    
+    @login_required(login_url="login")
+    def get_user(request: HttpRequest):
+        if request.method != 'GET':
+            return HttpResponseBadRequest
+        user = django_get_user(request)
+        return JsonResponse({'username': user.get_username(),
+                            'email': user.email,
+                             'first_name': user.first_name,
+                             'last_name': user.last_name
+                             })
