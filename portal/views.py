@@ -103,7 +103,18 @@ class api:
                                  'count': len(links),
                                  'links': links})
         elif request.method == 'POST':
-            # Implement POST method handling here #
+            jsonLink = json.loads(request.body)
+            print(f'Portal Json:{jsonLink}')
+            link = Link(name=jsonLink['name'],
+                        environment=jsonLink['environment'],
+                        link=jsonLink['link'],
+                        project=jsonLink['project'],
+                        description=jsonLink['description'],
+                        created_by=request.user.username,
+                        updated_by=request.user.username
+                        )
+            link.save()
+            return JsonResponse({'result': 'OK'})
             pass
         elif request.method == 'PUT':
             # Implement PUT method handling here #
