@@ -38,7 +38,8 @@ function request_edit_link(){
     const xmlhttp = new XMLHttpRequest()
     xmlhttp.onload = function() {
         // todo:hide update dialog
-
+        console.log('Hide edit dialog...');
+        $('#modal-edit').modal('hide');
         reload_table_links()
     }
     xmlhttp.open("PUT", `api/v1.0/link`)

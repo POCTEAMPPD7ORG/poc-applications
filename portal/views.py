@@ -98,9 +98,10 @@ class api:
         elif request.method == 'PUT':
             # Implement PUT method handling here #
             jsonLink = json.loads(request.body)
-            print(f'Portal Json:{jsonLink}')
+            print(f'Portal Json ORG:{jsonLink}')
             link_put = Link.objects.filter(id=jsonLink['id'])
-            print(f'Portal Json:{link_put}')
+            print(f'Portal Json EDIT:{link_put}')
             jsonLink['updated_by'] = request.user.username
+            link_put.update(**jsonLink)
             return JsonResponse({'result': 'OK'})
         return HttpResponseBadRequest()
