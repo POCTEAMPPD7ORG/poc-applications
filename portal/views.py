@@ -42,6 +42,7 @@ def portal(request: HttpRequest):
 
 
 class api:
+    @csrf_exempt
     def login(request: HttpRequest):
         """ API login
     
