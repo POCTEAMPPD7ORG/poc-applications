@@ -10,16 +10,16 @@ Portal Link Management
         <div class="input-group">
             <span class="input-group-text">Search</span>
             <input type="text" aria-label="Search" class="form-control txt-search">
-            <button title="Add link" type="button" class="btn btn-primary"><i class="fas fa-search"></i></button>
+            <button title="Search link" type="button" class="btn btn-primary"><i class="fas fa-search"></i></button>
         </div>
     </div>
     <div class="col-sm-2">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addlink"  onclick="clear_value();"><i class="fas fa-add"></i></button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addlink"  onclick="clear_value_dialog_add();"><i class="fas fa-add"></i></button>
     </div>
     <div class="col-sm-2"></div>
     <div class="col-sm-2">
         <div class="input-group">
-            <span class="input-group-text">Username</span>
+            <span id="username_portal" class="input-group-text"></span>
             <button type="button" class="btn btn-danger" onclick="logout_portal()">Logout</button>
         </div>
     </div>
@@ -30,16 +30,16 @@ Portal Link Management
         <thead class="bg-light">
         <tr>
             <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Env</th>
-            <th scope="col">Link</th>
-            <th scope="col">Project</th>
-            <th scope="col">Description</th>
-            <th scope="col">Created By</th>
-            <th scope="col">Created Date</th>
-            <th scope="col">Updated By</th>
-            <th scope="col">Updated Date</th>
-            <th scope="col">Actions</th>
+            <th scope="col" class="name_column">Name</th>
+            <th scope="col" class="env_column">Env</th>
+            <th scope="col" class="link_column">Link</th>
+            <th scope="col" class="project_column">Project</th>
+            <th scope="col" class="description_column">Description</th>
+            <th scope="col" class="created_by_column">Created By</th>
+            <th scope="col" class="crated_date_column">Created Date</th>
+            <th scope="col" class="updated_by_column">Updated By</th>
+            <th scope="col" class="updated_date_column">Updated Date</th>
+            <th scope="col" class="action_column">Actions</th>
         </tr>
         </thead>
         <tbody id="table_body_links">
@@ -47,6 +47,44 @@ Portal Link Management
         </tbody>
     </table>
 </div>
+<div class="row">
+    <nav aria-label="Table links navigation">
+        <ul class="pagination" id="list_table_links_pagination">
+            {% comment %} <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+                </a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item active"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+                </a>
+            </li> {% endcomment %}
+        </ul>
+    </nav>
+</div>
+<div class="row">
+    <div class="input-group">
+        <span class="input-group-text">select links per page</span>
+        <div class="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" id="button_select_link_per_page">
+                5
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" onclick="set_link_per_page(5)">5</a></li>
+                <li><a class="dropdown-item" onclick="set_link_per_page(10)">10</a></li>
+                <li><a class="dropdown-item" onclick="set_link_per_page(20)">20</a></li>
+                <li><a class="dropdown-item" onclick="set_link_per_page(50)">50</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="col-sm">
 
 <template id="template_row_link">
     <tr>
@@ -65,14 +103,37 @@ Portal Link Management
         <td link-id='X'> {% include 'actions.html' %}</td>
     </tr>
 </template>
+<template id="template_list_item_previous">
+    <li class="page-item disabled">
+        <a class="page-link" onclick="select_prev_pagination()" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only" onclick>Previous</span>
+        </a>
+    </li>
+</template>
+<template id="template_list_item_next">
+    <li class="page-item disabled">
+        <a class="page-link"onclick="select_next_pagination()" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+        <span class="sr-only">Next</span>
+        </a>
+    </li>
+</template>
+<template id="template_list_item_pagination">
+    <li class="page-item active">
+        <a class="page-link" onclick>2</a>
+    </li>
+</template>
+</div>
 {% include 'add.html' %}
 {% include 'edit.html' %}
 {% load static %}
 <script src="{% static 'js/script_get_cookies.js' %}"></script>
 <script src="{% static 'js/scripts.js' %}"></script>
-<script src="{% static 'js/script show_table_links.js' %}"></script>
+<script src="{% static 'js/script_show_table_links.js' %}"></script>
 <script src="{% static 'js/script_logout.js' %}"></script>
 <script src="{% static 'js/script_add_link.js' %}"></script>
 <script src="{% static 'js/edit_scripts.js' %}"></script>
+<script src="{% static 'js/script_search_link.js' %}"></script>
 {% endblock %}
 
