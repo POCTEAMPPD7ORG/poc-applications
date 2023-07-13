@@ -1,1 +1,4 @@
 *.pyc
+db.sqlite3
+.idea/Applications.iml
+.idea/misc.xml
