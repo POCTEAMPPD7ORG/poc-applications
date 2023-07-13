@@ -17,9 +17,6 @@ from django.http import JsonResponse, HttpResponse, HttpRequest, HttpResponseBad
 from django.template import loader
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import Link
-
-
 def login(request: HttpRequest):
     """ Get login page
     
@@ -42,6 +39,7 @@ def portal(request: HttpRequest):
 
 
 class api:
+
     @csrf_exempt
     def login(request: HttpRequest):
         """ API login
@@ -117,10 +115,16 @@ class api:
                         )
             link.save()
             return JsonResponse({'result': 'OK'})
-            pass
+
         elif request.method == 'PUT':
             # Implement PUT method handling here #
-            pass
+            jsonLink = json.loads(request.body)
+            print(f'Portal Json ORG:{jsonLink}')
+            link_put = Link.objects.filter(id=jsonLink['id'])
+            print(f'Portal Json EDIT:{link_put}')
+            jsonLink['updated_by'] = request.user.username
+            link_put.update(**jsonLink)
+            return JsonResponse({'result': 'OK'})
         return HttpResponseBadRequest()
     
     @login_required(login_url="login")
