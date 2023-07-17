@@ -99,6 +99,12 @@ class api:
                                                  | Q(project__icontains=query)
                                                  | Q(description__icontains=query)
                                                  | Q(created_by__icontains=query))[start:start + count].values())
+                total_count = Link.objects.filter(Q(name__icontains=query)
+                                                 | Q(environment__icontains=query)
+                                                 | Q(link__icontains=query)
+                                                 | Q(project__icontains=query)
+                                                 | Q(description__icontains=query)
+                                                 | Q(created_by__icontains=query)).count()
             return JsonResponse({'total': total_count,
                                  'count': len(links),
                                  'links': links})
