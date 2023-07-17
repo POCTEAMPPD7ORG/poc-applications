@@ -9,7 +9,10 @@ function search_link() {
             alert("Search text should be less than 250 characters.");
             return;
         }
-        reload_table_links();
+        console.log(`=> query=${query}`)
+        document.dispatchEvent(new CustomEvent('reload_table_links', {
+            detail : {search : query}
+        }));
     });
     $("#search-value").on("keyup", function(event) {
         if (event.keyCode === 13) {

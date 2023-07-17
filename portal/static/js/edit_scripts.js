@@ -40,7 +40,7 @@ function request_edit_link(){
         // todo:hide update dialog
         console.log('Hide edit dialog...');
         $('#modal-edit').modal('hide');
-        reload_table_links()
+        document.dispatchEvent(new CustomEvent('reload_table_links'));
     }
     xmlhttp.open("PUT", `api/v1.0/link`)
     xmlhttp.setRequestHeader("X-CSRFToken", getCookie('csrftoken'))
