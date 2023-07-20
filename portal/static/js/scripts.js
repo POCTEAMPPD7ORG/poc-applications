@@ -1,7 +1,7 @@
 console.log(`ATTENTION from Vinh: with each row of link, I put an attribute 'link-id' on cell contains actions`)
 
 function body_onload() {
-    reload_table_links()
+    document.dispatchEvent(new CustomEvent('reload_table_links'));
     get_current_user()
 }
 
