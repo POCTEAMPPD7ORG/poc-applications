@@ -108,6 +108,7 @@ class api:
             return JsonResponse({'total': total_count,
                                  'count': len(links),
                                  'links': links})
+            
         elif request.method == 'POST':
             jsonLink = json.loads(request.body)
             print(f'Portal Json:{jsonLink}')
@@ -121,7 +122,7 @@ class api:
                         )
             link.save()
             return JsonResponse({'result': 'OK'})
-
+        
         elif request.method == 'PUT':
             # Implement PUT method handling here #
             jsonLink = json.loads(request.body)
@@ -130,24 +131,22 @@ class api:
             print(f'Portal Json EDIT:{link_put}')
             jsonLink['updated_by'] = request.user.username
             link_put.update(**jsonLink)
-            return JsonResponse({'result': 'OK'})
-        return HttpResponseBadRequest()
+            return JsonResponse({'result': 'OK'})       
         
-    def delete_link(request, link_id=None):
-        if request.method == 'DELETE':
+        elif request.method == 'DELETE':
             try:
                 link = Link.objects.get(pk=link_id)
                 json_link = json.loads(request.body)
                 print(f'Portal Json: {json_link}')
                 link.delete()
-                Link.objects.all().update(id=F('id'))
+                # Link.objects.all().update(id=F('id'))
                 return JsonResponse({'message': 'Link deleted successfully.'})
             except Link.DoesNotExist:
                 return JsonResponse({'error': 'Link not found.'}, status=404)
             except Exception as e:
                 return JsonResponse({'error': str(e)}, status=500)
-        else:
-            return JsonResponse({'error': 'Invalid request method.'}, status=400)
+        
+        return HttpResponseBadRequest()
 
     @login_required(login_url="login")
     def get_user(request: HttpRequest):
