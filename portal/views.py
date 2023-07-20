@@ -81,8 +81,8 @@ class api:
         """
         start = None
         count = None
+        print(f'Method={request.method} link_id={link_id}')
         if request.method == 'GET':
-            print(f'link_id={link_id}')
             total_count = Link.objects.count()
             if link_id is not None:
                 links = list(Link.objects.filter(id=link_id).values())
@@ -127,7 +127,7 @@ class api:
             # Implement PUT method handling here #
             jsonLink = json.loads(request.body)
             print(f'Portal Json ORG:{jsonLink}')
-            link_put = Link.objects.filter(id=jsonLink['id'])
+            link_put = Link.objects.filter(id=link_id)
             print(f'Portal Json EDIT:{link_put}')
             jsonLink['updated_by'] = request.user.username
             link_put.update(**jsonLink)
@@ -136,8 +136,8 @@ class api:
         elif request.method == 'DELETE':
             try:
                 link = Link.objects.get(pk=link_id)
-                json_link = json.loads(request.body)
-                print(f'Portal Json: {json_link}')
+                # json_link = json.loads(request.body)
+                # print(f'Portal Json: {json_link}')
                 link.delete()
                 # Link.objects.all().update(id=F('id'))
                 return JsonResponse({'message': 'Link deleted successfully.'})
@@ -153,8 +153,8 @@ class api:
         if request.method != 'GET':
             return HttpResponseBadRequest
         user = django_get_user(request)
+        print(f'User:{user}')
         return JsonResponse({'username': user.get_username(),
-                            'email': user.email,
-                             'first_name': user.first_name,
-                             'last_name': user.last_name
+                             'email': user.email,
+                             'fullname': f'{user.first_name} {user.last_name}',
                              })
