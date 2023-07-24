@@ -66,7 +66,6 @@ class LinkTestCase(TestCase):
                     )
         link.save()
         self.assertEqual(Link.objects.count(), 1)
-        print(f'unit test>>>>>>>>>>>:{link}')
 
         # When
         jsonLink = {
@@ -92,3 +91,24 @@ class LinkTestCase(TestCase):
         self.assertEqual(updatedLink.project, jsonLink['project'])
         self.assertEqual(updatedLink.description, jsonLink['description'])
         self.assertEqual(updatedLink.updated_by, 'loan')
+
+    def test_delete_row(self):
+        """Test Delete row."""
+        # Prepare data
+        link = Link(name='Name to delete',
+                    environment='Environment to delete',
+                    link='http://deletelink.com',
+                    project='Project to delete',
+                    description='Description to delete',
+                    created_by='triet',
+                    updated_by='tri'
+                    )
+        link.save()
+
+        # When
+        self.assertEqual(Link.objects.count(), 1)
+        response = self.client.delete('http://127.0.0.1:8000/api/v1.0/link/{}'.format(link.id))
+
+        # Then
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Link.objects.count(), 0)
