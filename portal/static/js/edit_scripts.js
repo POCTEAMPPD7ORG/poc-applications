@@ -16,19 +16,21 @@ function onEditLink(node) {
     document.getElementById("edit-name").value = link_data.name
     document.getElementById("edit-env").value = link_data.environment
     document.getElementById("edit-link").value = link_data.link
-//    disable link edit because it is primary key
+    // disable link edit because it is primary key
     document.getElementById("edit-link").setAttribute("disabled","")
     document.getElementById("edit-link-type").value = link_data.project
     document.getElementById("edit-description").value = link_data.description
     document.getElementById("edit-createdBy").value = link_data.created_by
+    // For used in handler of onclick
+    document.getElementById("save-change").setAttribute('link-id', portal_id)
 
 }
 
-function request_edit_link(){
+function request_edit_link(node){
     console.log("Request Edit Link")
 
+    var linkId = node.getAttribute('link-id')
     const link = {}
-    link.id = document.getElementById("edit-id").value
     link.name = document.getElementById("edit-name").value
     link.environment = document.getElementById("edit-env").value
     link.link = document.getElementById("edit-link").value
@@ -42,7 +44,7 @@ function request_edit_link(){
         $('#modal-edit').modal('hide');
         document.dispatchEvent(new CustomEvent('reload_table_links'));
     }
-    xmlhttp.open("PUT", `api/v1.0/link`)
+    xmlhttp.open("PUT", `api/v1.0/link/${linkId}`)
     xmlhttp.setRequestHeader("X-CSRFToken", getCookie('csrftoken'))
     xmlhttp.setRequestHeader('mode', 'same-origin')
     xmlhttp.send(JSON.stringify(link))

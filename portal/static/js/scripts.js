@@ -29,11 +29,10 @@ function get_current_user(){
     xmlhttp.onload = function(){
         const response = JSON.parse(this.responseText)
         console.log(this.responseText)
-
-        if(response.first_name == "" && response.last_name == ""){
+        if(response.fullname.length <= 1){
             document.getElementById('username_portal').innerText = "Login as " + response.username
         }else{
-            document.getElementById('username_portal').innerText = "Login as " + response.first_name + " " + response.last_name
+            document.getElementById('username_portal').innerText = "Login as " + response.fullname
 
         }
     }
