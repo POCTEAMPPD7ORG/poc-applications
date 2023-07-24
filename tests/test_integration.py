@@ -29,8 +29,8 @@ def test_integration():
     WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, "addlink")))
     name = driver.find_element(By.ID, "name")
     name.send_keys("New Name 2")
-    env = driver.find_element(By.ID, "environment")
-    env.send_keys("New Environment2")
+    environment = driver.find_element(By.ID, "environment")
+    environment.send_keys("New Environment2")
     link = driver.find_element(By.ID, "link")
     strNewLink = "https://"+ str(time.time_ns()) + ".com"
     link.send_keys(strNewLink)
@@ -41,15 +41,22 @@ def test_integration():
     WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, "submitAddLink")))
     submit_btn = driver.find_element(By.ID, "submitAddLink")
     submit_btn.click()
-    env = driver.find_element(By.ID, "search-value")
-    env.send_keys(strNewLink)
+    search_value = driver.find_element(By.ID, "search-value")
+    search_value.send_keys(strNewLink)
     search_btn = driver.find_element(By.ID, "search-btn")
     search_btn.click()
     WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//*[@id='table_body_links']//a")))
     actual_link = driver.find_element(By.XPATH, "//*[@id='table_body_links']//a")
     assert actual_link.text == strNewLink
-    print("actual link", actual_link)
+    print("actual link", actual_link.text)
     print("expected link", strNewLink)
+
+    delete_btn = driver.find_element(By.ID, "deleteLink")
+    delete_btn.click()
+    alert = driver.switch_to.alert
+    if alert:
+        print(alert.text)
+    alert.accept()
 
     if __name__ == "__main__":
         pytest.main()
