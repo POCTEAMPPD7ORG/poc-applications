@@ -46,10 +46,6 @@
     font-size: x-large;
 }
 
-.o-minimal-header__logo #bosch-logo-text {
-    fill: #ea0016;
-}
-
 .o-minimal-header__logo {
     height: 3rem;
     order: 2;
