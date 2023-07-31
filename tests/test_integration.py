@@ -28,16 +28,16 @@ def test_integration():
 
     WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, "addlink")))
     name = driver.find_element(By.ID, "name")
-    name.send_keys("New Name 2")
+    name.send_keys("New Name")
     environment = driver.find_element(By.ID, "environment")
-    environment.send_keys("New Environment2")
+    environment.send_keys("New Environment")
     link = driver.find_element(By.ID, "link")
-    strNewLink = "https://"+ str(time.time_ns()) + ".com"
+    strNewLink = "https://" + str(time.time_ns()) + ".com"
     link.send_keys(strNewLink)
     project = driver.find_element(By.ID, "project")
-    project.send_keys("New Project2")
+    project.send_keys("New Project")
     description = driver.find_element(By.ID, "description")
-    description.send_keys("New Description2")
+    description.send_keys("New Description")
     WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, "submitAddLink")))
     submit_btn = driver.find_element(By.ID, "submitAddLink")
     submit_btn.click()
@@ -46,8 +46,18 @@ def test_integration():
     search_btn = driver.find_element(By.ID, "search-btn")
     search_btn.click()
     WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//*[@id='table_body_links']//a")))
+    actual_name = driver.find_element(By.XPATH, "//*[@id='table_body_links']//td[1]")
+    actual_env = driver.find_element(By.XPATH, "//*[@id='table_body_links']//td[2]")
     actual_link = driver.find_element(By.XPATH, "//*[@id='table_body_links']//a")
-    assert actual_link.text == strNewLink
+    actual_project = driver.find_element(By.XPATH, "//*[@id='table_body_links']//td[4]")
+    actual_des = driver.find_element(By.XPATH, "//*[@id='table_body_links']//td[5]")
+    actual_created_by = driver.find_element(By.XPATH, "//*[@id='table_body_links']//td[6]")
+    assert actual_name.text == "New Name" \
+           and actual_env.text == "New Environment" \
+           and actual_link.text == strNewLink \
+           and actual_project.text == "New Project" \
+           and actual_des.text == "New Description" \
+           and actual_created_by.text == "loan"
     print("actual link", actual_link.text)
     print("expected link", strNewLink)
 
